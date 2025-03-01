@@ -68,3 +68,6 @@ This Flask-based web application allows users to annotate images in a specified 
 ## License
 
 This project is open-source and can be modified as needed.
+
+##
+
