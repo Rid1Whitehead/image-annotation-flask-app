@@ -1,0 +1,109 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Image Annotation Tool</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>IMAGE ANNOTATION WEBTOOL</h1>
+        {% if image_filename %}
+        <div class="image-area">
+            <p>Filename: {{ image_filename }}</p>
+            <img src="{{ url_for('image', filename=image_filename) }}" alt="current image">
+            <p>Image count: {{ image_count }}</p>
+        </div>
+        <form action="{{ url_for('navigate') }}" method="post">
+            <div class="category-buttons">
+                {% for category in categories %}
+                <button type="button" class="category-btn {{ 'active' if category in selected_categories else '' }}"
+                    onclick="toggleCategory(this, '{{ category }}');">{{ category }}</button>
+                {% endfor %}
+                <input type="hidden" name="selected_categories" id="selected_categories" value="{{ selected_categories | join(',') }}">
+            </div>
+            <div class="navigation">
+                <button type="submit" name="direction" value="next">Next Image</button>
+                <button type="button" onclick="confirmReset()">Reset</button>
+                <button id="dark-mode-toggle">Toggle Dark Mode</button>
+            </div>
+        </form>
+        {% else %}
+        <p>All images have been annotated, you rock!</p>
+        {% endif %}
+    </div>
+
+    <script>
+        function toggleCategory(btn, category) {
+            btn.classList.toggle('active');
+            const selectedCategories = document.getElementById('selected_categories');
+            let currentCategories = selectedCategories.value.split(',');
+            currentCategories = currentCategories.filter(item => item);  // Remove empty strings
+
+            if (btn.classList.contains('active')) {
+                if (!currentCategories.includes(category)) {
+                    currentCategories.push(category);
+                }
+            } else {
+                const index = currentCategories.indexOf(category);
+                if (index !== -1) {
+                    currentCategories.splice(index, 1);
+                }
+            }
+
+            selectedCategories.value = currentCategories.join(',');
+        }
+
+        function confirmReset() {
+            if (confirm('Are you sure you want to reset all data? This cannot be undone.')) {
+                window.location.href = '{{ url_for('reset') }}';
+            }
+        }
+
+        function toggleDarkMode() {
+            const isDarkMode = document.body.classList.toggle('dark-mode');
+            document.querySelectorAll('.container, .image-area, .category-btn, .navigation button')
+                .forEach(el => el.classList.toggle('dark-mode', isDarkMode));
+            localStorage.setItem('darkMode', isDarkMode ? 'enabled' : 'disabled');
+        }
+
+        // Speech recognition setup
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        const recognition = new SpeechRecognition();
+        recognition.continuous = true;
+        recognition.interimResults = false;
+
+        recognition.onresult = function(event) {
+            const transcript = event.results[event.results.length - 1][0].transcript.trim().toLowerCase();
+            const categories = {{ categories | tojson }};
+            
+            if (categories.includes(transcript)) {
+                document.querySelectorAll('.category-btn').forEach(btn => {
+                    if (btn.textContent.toLowerCase() === transcript) {
+                        btn.click();
+                    }
+                });
+            } else if (transcript === 'next') {
+                document.querySelector('button[name="direction"][value="next"]').click();
+            }
+        };
+
+        recognition.start();
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set up dark mode
+            const isDarkMode = localStorage.getItem('darkMode') === 'enabled';
+            if (isDarkMode) {
+                toggleDarkMode();
+            }
+
+            // Set up dark mode toggle button
+            document.getElementById('dark-mode-toggle').addEventListener('click', toggleDarkMode);
+
+            // Check if all images have been annotated
+            {% if all_annotated %}
+                alert('All images have been annotated, you rock!');
+            {% endif %}
+        });
+    </script>
+</body>
+</html>

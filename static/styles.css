@@ -1,0 +1,174 @@
+/* Base styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4; /* Light background */
+    color: #333; /* Dark text */
+}
+
+/* Dark mode styles */
+body.dark-mode {
+    background-color: #121212; /* Dark background */
+    color: #e0e0e0; /* Light text */
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 20px auto;
+    text-align: center;
+    background: #fff; /* Light background */
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.container.dark-mode {
+    background: #2c2c2c; /* Darker background */
+    color: #e0e0e0; /* Light text */
+}
+
+.image-area {
+    margin: 20px;
+    border: 1px solid #ccc;
+    padding: 20px;
+}
+
+.image-area.dark-mode {
+    background: #333; /* Darker background */
+    border: 1px solid #444; /* Darker border */
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+.category-buttons {
+    margin: 20px;
+}
+
+.category-btn {
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    padding: 10px 20px;
+    margin: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.category-btn:hover {
+    background-color: #e0e0e0;
+}
+
+.category-btn.active {
+    background-color: #007BFF; /* Active button background color in light mode */
+    color: #fff; /* Ensure text is readable */
+}
+
+.category-btn.dark-mode {
+    background-color: #424242; /* Darker button background */
+    border: 1px solid #616161; /* Darker border */
+}
+
+.category-btn.active.dark-mode {
+    background-color: #1a73e8; /* Dark mode active color */
+    color: #ffffff; /* Light text for contrast */
+}
+
+.navigation button {
+    margin: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.navigation button:hover {
+    background-color: #0056b3; /* Slightly darker blue on hover */
+}
+
+.navigation button.dark-mode {
+    background-color: #0056b3; /* Darker button background */
+}
+
+.navigation button:hover.dark-mode {
+    background-color: #004386; /* Even darker on hover */
+}
+
+/* Form styling */
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    width: 100%;
+    max-width: 500px;
+}
+
+.form-input {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    background-color: #fff;
+    color: #333;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    transition: border 0.3s, background-color 0.3s, color 0.3s;
+}
+
+.form-input:focus {
+    border: 1px solid #007BFF;
+}
+
+.form-input.dark-mode {
+    background-color: #424242;
+    color: #e0e0e0;
+    border: 1px solid #616161;
+}
+
+.form-input.dark-mode::placeholder {
+    color: #bdbdbd;
+}
+
+.form-btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.form-btn:hover {
+    background-color: #0056b3;
+}
+
+.form-btn.dark-mode {
+    background-color: #0056b3;
+}
+
+.form-btn.dark-mode:hover {
+    background-color: #004386;
+}
+
+/* Flash messages */
+.flash-messages {
+    list-style-type: none;
+    padding: 0;
+    color: red;
+}
+
+.flash-messages li {
+    color: red;
+}
